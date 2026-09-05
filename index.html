@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Noval Joeliawan — Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  </head>
+  <body>
+    <div class="preloader" id="preloader">
+      <div class="preloader-inner">
+        <div class="preloader-bar">
+          <div class="preloader-bar-fill"></div>
+        </div>
+        <div class="preloader-text">loading<span>...</span></div>
+      </div>
+    </div>
+
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="nav-logo" id="logo">
+          Noval<span class="accent-dot">.</span>
+        </div>
+        <div class="hamburger"><span></span><span></span><span></span></div>
+        <ul class="nav-menu">
+          <li><a href="#home" class="nav-link">home</a></li>
+          <li><a href="#about" class="nav-link">about</a></li>
+          <li><a href="#skills" class="nav-link">skills</a></li>
+          <li><a href="#proyek" class="nav-link">proyek</a></li>
+          <li><a href="#sertifikat" class="nav-link">sertifikat</a></li>
+          <li><a href="#timeline" class="nav-link">perjalanan</a></li>
+          <li><a href="#contact" class="nav-link">contact</a></li>
+        </ul>
+        <div class="nav-actions">
+          <button
+            type="button"
+            class="theme-toggle"
+            id="themeToggle"
+            title="Toggle Theme"
+          >
+            <span class="icon-sun">☀</span>
+            <span class="icon-moon">☽</span>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <section class="hero" id="home">
+      <canvas id="particles-canvas"></canvas>
+
+      <div data-aos="fade-right" data-aos-duration="900" class="hero-text">
+        <span class="tag">Portfolio</span>
+        <h1>Halo, Saya <span class="name-highlight">Noval Joeliawan</span></h1>
+        <div class="typing-wrap">
+          <span class="typing-label">🌊</span>
+          <span class="typing-text" id="typingText"></span>
+          <span class="typing-cursor" id="typingCursor">|</span>
+        </div>
+        <p>
+          Pelajar yang sedang membangun kemampuan di dunia web development, satu
+          proyek kecil setiap minggu, menggunakan HTML, CSS, dan JavaScript.
+        </p>
+        <div class="hero-actions">
+          <a href="#proyek" class="btn btn-primary">Lihat Proyek</a>
+          <a href="#contact" class="btn btn-outline">Hubungi Saya</a>
+        </div>
+      </div>
+
+      <div data-aos="fade-up" data-aos-duration="1000" class="hero-visual">
+        <div class="hero-badge hero-badge-1">✦ developer</div>
+        <div class="hero-badge hero-badge-2">☀ 3 stack</div>
+        <div class="hero-img-wrap">
+          <img src="assetporto/Noval.jpeg" alt="Foto Profil" />
+        </div>
+      </div>
+    </section>
+
+    <div class="circuit-divider wave-a"></div>
+
+    <section id="about" class="about">
+      <div class="about-inner">
+        <span class="tag" data-aos="fade-up">Tentang</span>
+        <h2 data-aos="fade-up" data-aos-duration="900">Tentang Saya</h2>
+        <p data-aos="fade-up" data-aos-duration="1000">
+          Saya Noval Joeliawan, seorang pelajar Smk Krian 1 Sidoarjo yang sedang
+          belajar web development. Saat ini saya fokus mempelajari HTML, CSS,
+          dan JavaScript, serta mencoba membuat proyek-proyek sederhana untuk
+          meningkatkan kemampuan. Saya suka bereksperimen dengan desain website
+          dan antarmuka yang menarik, serta selalu ingin belajar hal baru di
+          dunia teknologi. Tujuan saya adalah menjadi developer yang kreatif dan
+          bisa membuat website yang bermanfaat bagi banyak orang.
+        </p>
+        <div class="about-highlights" data-aos="fade-up">
+          <div class="about-highlight">
+            <span class="about-highlight-icon">🎓</span>
+            <span>SMK Krian 1 Sidoarjo</span>
+          </div>
+          <div class="about-highlight">
+            <span class="about-highlight-icon">💻</span>
+            <span>HTML • CSS • JavaScript</span>
+          </div>
+          <div class="about-highlight">
+            <span class="about-highlight-icon">🎯</span>
+            <span>Fokus: Web Development</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="circuit-divider wave-b"></div>
+
+    <section id="skills" class="skills">
+      <span class="tag" data-aos="fade-up">Kemampuan</span>
+      <h2 data-aos="fade-up">Kemampuan</h2>
+      <div class="card-list">
+        <div data-aos="fade-up" class="card">
+          <img
+            src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg"
+            alt="HTML"
+          />
+          <span class="card-title">HTML</span>
+        </div>
+        <div data-aos="fade-up" class="card">
+          <img
+            src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg"
+            alt="CSS"
+          />
+          <span class="card-title">CSS</span>
+        </div>
+        <div data-aos="fade-up" class="card">
+          <img
+            src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"
+            alt="JavaScript"
+          />
+          <span class="card-title">JavaScript</span>
+        </div>
+        <div data-aos="fade-up" class="card">
+          <img
+            src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/arduino/arduino-original.svg"
+            alt="Arduino IDE"
+          />
+          <span class="card-title">Arduino IDE</span>
+        </div>
+        <div data-aos="fade-up" class="card">
+          <img
+            src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
+            alt="GitHub"
+          />
+          <span class="card-title">GitHub</span>
+        </div>
+        <div data-aos="fade-up" class="card">
+          <img
+            src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg"
+            alt="MySQL"
+          />
+          <span class="card-title">MySQL</span>
+        </div>
+        <div data-aos="fade-up" class="card">
+          <img
+            src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg"
+            alt="PHP"
+          />
+          <span class="card-title">PHP</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="skill-bars-section">
+      <div class="skill-bars-container" id="skillBarsContainer"></div>
+    </div>
+
+    <div class="circuit-divider wave-c"></div>
+
+    <section id="proyek" class="content-section">
+      <span class="tag" data-aos="fade-up">Proyek</span>
+      <h2 data-aos="fade-up" data-aos-duration="900">Proyek</h2>
+      <p class="section-sub" data-aos="fade-up">
+        hasil eksperimen dan latihan coding saya
+      </p>
+      <div
+        id="proyek-list"
+        class="card-grid"
+        data-aos="zoom-in"
+        data-aos-duration="900"
+      ></div>
+
+      <div class="gallery-btn-wrap" data-aos="fade-up">
+        <a href="gallery.html?tab=proyek" class="btn btn-outline"
+          >Lihat Galeri</a
+        >
+      </div>
+    </section>
+
+    <div class="circuit-divider wave-d"></div>
+
+    <section id="sertifikat" class="content-section">
+      <span class="tag" data-aos="fade-up">Sertifikat</span>
+      <h2 data-aos="fade-up" data-aos-duration="900">Sertifikat</h2>
+      <p class="section-sub" data-aos="fade-up">
+        pencapaian belajar yang sudah diselesaikan
+      </p>
+      <div
+        id="sertifikat-list"
+        class="card-grid"
+        data-aos="zoom-in"
+        data-aos-duration="900"
+      ></div>
+
+      <div class="gallery-btn-wrap" data-aos="fade-up">
+        <a href="gallery.html?tab=sertifikat" class="btn btn-outline"
+          >Lihat Galeri</a
+        >
+      </div>
+    </section>
+
+    <div class="circuit-divider wave-e"></div>
+
+    <section id="timeline" class="timeline-section">
+      <span class="tag" data-aos="fade-up">Perjalanan</span>
+      <h2 data-aos="fade-up" data-aos-duration="900">Perjalanan Belajar</h2>
+      <div class="timeline" id="timelineContainer"></div>
+    </section>
+
+    <div class="circuit-divider wave-f"></div>
+
+    <div id="imgModal" class="modal">
+      <span class="close" data-close-modal="imgModal">&times;</span>
+      <img id="modalImg" class="modal-content" />
+    </div>
+
+    <div id="emailModal" class="modal">
+      <div class="email-box" data-aos="zoom-in">
+        <span class="close" data-close-modal="emailModal">&times;</span>
+        <span class="tag">Email</span>
+        <h3>Hubungi Lewat Email</h3>
+        <p>Silakan hubungi saya melalui alamat email berikut.</p>
+        <div class="email-field">
+          <span id="emailText">novaljoeliawan@gmail.com</span>
+          <button id="copyEmailBtn" type="button">Salin</button>
+        </div>
+      </div>
+    </div>
+
+    <button
+      type="button"
+      class="back-to-top"
+      id="backToTop"
+      aria-label="Back to top"
+    >
+      <svg viewBox="0 0 24 24">
+        <polyline points="18 15 12 9 6 15"></polyline>
+      </svg>
+    </button>
+
+    <section id="contact" class="contact">
+      <span class="tag" data-aos="fade-up">Kontak</span>
+      <h2 data-aos="fade-up" data-aos-duration="900">Hubungi Saya</h2>
+      <div data-aos="fade-up" data-aos-duration="950" class="contact-icons">
+        <button
+          type="button"
+          id="openEmailModal"
+          class="icon-btn"
+          title="Email"
+        >
+          <img
+            src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/gmail.svg"
+            alt="Email"
+          />
+        </button>
+        <a
+          href="https://www.instagram.com/novaljoeliawan_?igsh=MXJsOWF0Z3MzZGQ5Nw=="
+          target="_blank"
+          title="Instagram"
+        >
+          <img
+            src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/instagram.svg"
+            alt="Instagram"
+          />
+        </a>
+        <a
+          href="https://www.tiktok.com/@joeliawan_"
+          target="_blank"
+          title="TikTok"
+        >
+          <img
+            src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/tiktok.svg"
+            alt="TikTok"
+          />
+        </a>
+        <a
+          href="https://github.com/Noval-Joeliawan"
+          target="_blank"
+          title="GitHub"
+        >
+          <img
+            src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/github.svg"
+            alt="GitHub"
+          />
+        </a>
+      </div>
+      <p class="footer-note">terima kasih telah mengunjungi portofolio saya</p>
+    </section>
+
+    <script src="script.js"></script>
+  </body>
+</html>

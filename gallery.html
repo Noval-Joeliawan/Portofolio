@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Galeri — Noval Joeliawan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  </head>
+  <body>
+    <div class="preloader" id="preloader">
+      <div class="preloader-inner">
+        <div class="preloader-bar">
+          <div class="preloader-bar-fill"></div>
+        </div>
+        <div class="preloader-text">loading<span>...</span></div>
+      </div>
+    </div>
+
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <canvas id="particles-canvas"></canvas>
+
+    <nav class="navbar">
+      <div class="nav-container">
+        <a
+          href="index.html"
+          class="nav-logo"
+          id="logo"
+          style="text-decoration: none"
+        >
+          Noval<span class="accent-dot">.</span>
+        </a>
+        <div class="hamburger"><span></span><span></span><span></span></div>
+        <ul class="nav-menu">
+          <li><a href="index.html#home" class="nav-link">home</a></li>
+          <li><a href="index.html#about" class="nav-link">about</a></li>
+          <li><a href="index.html#skills" class="nav-link">skills</a></li>
+          <li><a href="index.html#proyek" class="nav-link">proyek</a></li>
+          <li>
+            <a href="index.html#sertifikat" class="nav-link">sertifikat</a>
+          </li>
+          <li><a href="index.html#timeline" class="nav-link">perjalanan</a></li>
+          <li><a href="index.html#contact" class="nav-link">contact</a></li>
+        </ul>
+        <div class="nav-actions">
+          <button
+            type="button"
+            class="theme-toggle"
+            id="themeToggle"
+            title="Toggle Theme"
+          >
+            <span class="icon-sun">☀</span>
+            <span class="icon-moon">☽</span>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <section class="gallery-page">
+      <div class="gallery-page-head">
+        <a href="index.html" class="gallery-back-link" data-aos="fade-right">
+          &larr; Kembali ke Portfolio
+        </a>
+        <span class="tag" data-aos="fade-up">Galeri</span>
+        <h1 data-aos="fade-up" data-aos-duration="900">Galeri</h1>
+        <p class="section-sub" data-aos="fade-up">
+          semua sertifikat dan proyek dalam satu tempat
+        </p>
+      </div>
+
+      <div class="gallery-tabs" data-aos="fade-up">
+        <button type="button" class="gallery-tab active" data-category="semua">
+          Semua
+        </button>
+        <button type="button" class="gallery-tab" data-category="sertifikat">
+          Sertifikat
+        </button>
+        <button type="button" class="gallery-tab" data-category="proyek">
+          Proyek
+        </button>
+      </div>
+
+      <div
+        id="fullGalleryGrid"
+        class="card-grid gallery-full-grid"
+        data-aos="zoom-in"
+        data-aos-duration="900"
+      ></div>
+    </section>
+
+    <div id="imgModal" class="modal">
+      <span class="close" data-close-modal="imgModal">&times;</span>
+      <img id="modalImg" class="modal-content" />
+    </div>
+
+    <button
+      type="button"
+      class="back-to-top"
+      id="backToTop"
+      aria-label="Back to top"
+    >
+      <svg viewBox="0 0 24 24">
+        <polyline points="18 15 12 9 6 15"></polyline>
+      </svg>
+    </button>
+
+    <script src="script.js"></script>
+  </body>
+</html>
