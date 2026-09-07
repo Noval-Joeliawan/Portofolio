@@ -534,8 +534,8 @@ function initFullGalleryPage() {
     const items =
       category === "semua"
         ? all.filter(
-            (i) => i.category === "sertifikat" || i.category === "proyek",
-          )
+          (i) => i.category === "sertifikat" || i.category === "proyek",
+        )
         : all.filter((i) => i.category === category);
 
     grid.innerHTML = items.length
@@ -641,6 +641,157 @@ function initNightSky() {
   sun.className = "sun-layer";
   sun.setAttribute("aria-hidden", "true");
   hero.appendChild(sun);
+}
+
+function initOceanCursor() {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  if (window.__oceanCursorInit) return;
+  window.__oceanCursorInit = true;
+
+  const style = document.createElement("style");
+  style.id = "ocean-cursor-style";
+  style.textContent = `
+    body{--mx:0px;--my:0px;}
+
+    /* 💡 cahaya air yang mengikuti kursor (pantulan cahaya di permukaan) */
+    .ocean-cursor-glow{
+      position:fixed;top:0;left:0;width:560px;height:560px;
+      margin:-280px 0 0 -280px;border-radius:50%;pointer-events:none;z-index:3;
+      background:radial-gradient(circle,rgba(125,211,232,.14) 0%,rgba(45,181,206,.07) 42%,transparent 70%);
+      mix-blend-mode:screen;opacity:0;will-change:transform;
+      transition:opacity .5s ease;
+    }
+    [data-theme="dark"] .ocean-cursor-glow{
+      background:radial-gradient(circle,rgba(221,247,255,.08) 0%,rgba(125,211,232,.05) 42%,transparent 70%);
+    }
+
+    /* 🌊 dekorasi laut tergeser halus mengikuti kursor.
+       Memakai properti translate (bukan transform) agar TIDAK bentrok
+       dengan animasi ombak/sheen yang sudah ada. */
+    .hero::before{translate:calc(var(--mx)*2.4) calc(var(--my)*1.8);}
+    .about::before,.skills::before,.skill-bars-section::before,
+    .content-section::before,.timeline-section::before,
+    .contact::before,.gallery-page::before{
+      translate:calc(var(--mx)*1.4) calc(var(--my)*1.1);
+    }
+    .bubbles-layer{translate:calc(var(--mx)*.8) calc(var(--my)*.5);}
+    .creatures-layer{translate:calc(var(--mx)*-.9) calc(var(--my)*-.6);}
+
+    /* 🫧 gelembung meletus saat klik */
+    .ocean-pop-layer{position:fixed;inset:0;z-index:998;overflow:hidden;pointer-events:none;}
+    .ocean-pop{
+      position:absolute;border-radius:50%;
+      width:var(--s);height:var(--s);
+      left:calc(var(--px) - var(--s)/2);top:calc(var(--py) - var(--s)/2);
+      background:radial-gradient(circle at 32% 28%,rgba(255,255,255,.8),rgba(255,255,255,.18) 52%,transparent 72%);
+      border:1.5px solid rgba(255,255,255,.6);
+      box-shadow:inset 2px 3px 5px rgba(255,255,255,.25);
+      opacity:0;will-change:transform,opacity;
+      animation:popGrow .16s cubic-bezier(.34,1.56,.64,1) var(--tin) forwards,
+                popBurst .22s ease-in var(--tout) forwards;
+    }
+    .ocean-pop::after{
+      content:"";position:absolute;top:14%;left:18%;width:30%;height:30%;
+      border-radius:50%;background:rgba(255,255,255,.9);filter:blur(.6px);
+    }
+    .ocean-ripple{
+      position:absolute;left:var(--px);top:var(--py);
+      width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;
+      border:2px solid rgba(255,255,255,.65);
+      opacity:0;will-change:transform,opacity;
+      animation:rippleOut .5s ease-out forwards;
+    }
+    @keyframes popGrow{from{transform:scale(.15);opacity:0;}to{transform:scale(1);opacity:1;}}
+    @keyframes popBurst{from{transform:scale(1);opacity:1;}to{transform:scale(1.55);opacity:0;}}
+    @keyframes rippleOut{from{transform:scale(.3);opacity:.75;}to{transform:scale(2.8);opacity:0;}}
+
+    [data-theme="dark"] .ocean-pop{
+      background:radial-gradient(circle at 32% 28%,rgba(221,247,255,.65),rgba(125,211,232,.18) 52%,transparent 72%);
+      border-color:rgba(125,211,232,.55);
+      box-shadow:inset 2px 3px 5px rgba(221,247,255,.2),0 0 8px rgba(125,211,232,.25);
+    }
+    [data-theme="dark"] .ocean-pop::after{background:rgba(221,247,255,.85);}
+    [data-theme="dark"] .ocean-ripple{border-color:rgba(125,211,232,.6);}
+  `;
+  document.head.appendChild(style);
+
+  const rand = (min, max) => min + Math.random() * (max - min);
+  const hasMouse = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+
+  if (hasMouse) {
+    const glow = document.createElement("div");
+    glow.className = "ocean-cursor-glow";
+    document.body.appendChild(glow);
+
+    let tx = 0, ty = 0;
+    let cx = 0, cy = 0;
+    let gx = innerWidth / 2, gy = innerHeight / 2;
+    let visible = false;
+
+    window.addEventListener("mousemove", (e) => {
+      tx = ((e.clientX / innerWidth) - 0.5) * 2 * 18;
+      ty = ((e.clientY / innerHeight) - 0.5) * 2 * 18;
+      gx = e.clientX;
+      gy = e.clientY;
+      if (!visible) { visible = true; glow.style.opacity = "1"; }
+    }, { passive: true });
+
+    document.addEventListener("mouseleave", () => {
+      visible = false;
+      glow.style.opacity = "0";
+    });
+
+    (function loop() {
+      cx += (tx - cx) * 0.07;
+      cy += (ty - cy) * 0.07;
+      document.body.style.setProperty("--mx", cx.toFixed(2) + "px");
+      document.body.style.setProperty("--my", cy.toFixed(2) + "px");
+      glow.style.transform = "translate3d(" + gx + "px," + gy + "px,0)";
+      requestAnimationFrame(loop);
+    })();
+  }
+
+
+  const popLayer = document.createElement("div");
+  popLayer.className = "ocean-pop-layer";
+  popLayer.setAttribute("aria-hidden", "true");
+  document.body.appendChild(popLayer);
+
+  window.addEventListener("pointerdown", (e) => {
+    if (e.button !== undefined && e.button !== 0) return;
+
+
+    while (popLayer.childElementCount > 70) popLayer.firstElementChild.remove();
+
+    const x = e.clientX;
+    const y = e.clientY;
+
+
+    const ripple = document.createElement("span");
+    ripple.className = "ocean-ripple";
+    ripple.style.setProperty("--px", x + "px");
+    ripple.style.setProperty("--py", y + "px");
+    popLayer.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 700);
+
+    const b = document.createElement("span");
+    b.className = "ocean-pop";
+    const tin = 0;
+    b.style.setProperty("--s", rand(28, 42).toFixed(0) + "px");
+    b.style.setProperty("--px", x + "px");
+    b.style.setProperty("--py", y + "px");
+    b.style.setProperty("--tin", tin.toFixed(2) + "s");
+    b.style.setProperty("--tout", (tin + 0.22 + rand(0, 0.25)).toFixed(2) + "s");
+    popLayer.appendChild(b);
+    setTimeout(() => b.remove(), 1100);
+  }, { passive: true });
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initOceanCursor);
+} else {
+  initOceanCursor();
 }
 
 function initOceanBubbles() {
