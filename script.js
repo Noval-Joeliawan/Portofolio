@@ -37,6 +37,13 @@ const defaultContent = [
     category: "sertifikat",
   },
   {
+    id: "seed-12",
+    title: "Sertifikat Mimo",
+    description: "HTML Fundamentals",
+    image: "sertifikat/Sertifikat Mmo.jpg",
+    category: "sertifikat",
+  },
+  {
     id: "seed-3",
     title: "Sertifikat Sololearn",
     description: "Introduction to HTML",
@@ -97,13 +104,6 @@ const defaultContent = [
     title: "Sertifikat Dicoding",
     description: "Belajar Membuat Frontend Web untuk Pemula",
     image: "sertifikat/sertifikat dicoding 6.jpg",
-    category: "sertifikat",
-  },
-  {
-    id: "seed-12",
-    title: "Sertifikat Mimo",
-    description: "HTML Fundamentals",
-    image: "sertifikat/Sertifikat Mmo.jpg",
     category: "sertifikat",
   },
   {
