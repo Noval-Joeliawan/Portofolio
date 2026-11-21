@@ -1,0 +1,2002 @@
+/* ==========================================================================
+   SUB-PAGES (projects / skills / about / contact / certificates /
+   timeline / gallery) — identitas visual SAMA dengan index.html (home.css)
+   Persona 5: merah menyala · hitam pekat · putih bersih
+   Blok miring, huruf kolase (ransom note), bayangan kaku, halftone, shards.
+   ========================================================================== */
+
+/* ---------- token ---------- */
+:root {
+  --red: #d90429;
+  --red-light: #ef233c;
+  --red-stripe: #9c0320; /* selang-seling garis diagonal merah-hitam */
+  --black: #0b090a;
+  --white: #ffffff;
+  --ink-shadow: rgba(11, 9, 10, 0.35);
+
+  --font-anton: "Anton", impact, sans-serif;
+  --font-archivo: "Archivo Black", impact, sans-serif;
+  --font-bebas: "Bebas Neue", impact, sans-serif;
+  --font-serif: "Playfair Display", serif;
+  --font-body: "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --hud-h: 46px;
+  --gutter: clamp(16px, 4vw, 40px);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+::selection {
+  background: var(--black);
+  color: var(--white);
+}
+
+:focus-visible {
+  outline: 3px solid var(--white);
+  outline-offset: 3px;
+}
+
+/* ==========================================================================
+   LATAR BELAKANG — garis diagonal merah-hitam + halftone + pecahan kaca
+   ========================================================================== */
+body.p5-theme,
+body.subpage-body {
+  position: relative;
+  min-height: 100vh;
+  background: var(--red);
+  color: var(--white);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+}
+
+/* lapis 1: garis diagonal + cahaya merah terang + vinyet hitam */
+body.subpage-body::before {
+  content: "";
+  position: fixed;
+  inset: -9%;
+  z-index: -4;
+  transform: perspective(1400px) translate3d(calc(var(--mx, 0) * -16px), calc(var(--my, 0) * -12px), 0)
+    rotateY(calc(var(--mx, 0) * 2deg)) rotateX(calc(var(--my, 0) * -1.6deg));
+  will-change: transform;
+  background:
+    linear-gradient(to top, rgba(11, 9, 10, 0.5), transparent 32%),
+    radial-gradient(ellipse 60% 55% at 100% 0%, rgba(239, 35, 60, 0.6), transparent 70%),
+    repeating-linear-gradient(-62deg, var(--red) 0 54px, var(--red-stripe) 54px 108px);
+  pointer-events: none;
+}
+
+/* lapis 2: pecahan kaca (shards.svg) di sisi kanan */
+body.subpage-body::after {
+  content: "";
+  position: fixed;
+  top: -50px;
+  right: -70px;
+  bottom: -50px;
+  width: calc(min(46vw, 640px) + 70px);
+  transform-origin: 100% 50%;
+  transform: perspective(1000px) translate3d(calc(var(--mx, 0) * -40px), calc(var(--my, 0) * -28px), 0)
+    rotateY(calc(var(--mx, 0) * -4deg)) rotateX(calc(var(--my, 0) * 3deg));
+  will-change: transform;
+  z-index: -3;
+  background: url("assetporto/shards.svg") center / cover no-repeat;
+  opacity: 0.42;
+  clip-path: polygon(160px 0, 100% 0, 100% 100%, 0 100%);
+  pointer-events: none;
+}
+
+/* lapis 3: halftone titik komik (pojok kiri-atas & kanan-bawah) */
+.p5-halftone-bg {
+  position: fixed;
+  inset: -6%;
+  z-index: -2;
+  transform: translate3d(calc(var(--mx, 0) * -26px), calc(var(--my, 0) * -20px), 0);
+  will-change: transform;
+  pointer-events: none;
+  background-image: radial-gradient(rgba(0, 0, 0, 0.45) 1.4px, transparent 1.8px);
+  background-size: 7px 7px;
+  -webkit-mask-image:
+    radial-gradient(ellipse 70% 60% at 0% 0%, #000 0%, transparent 70%),
+    radial-gradient(ellipse 55% 45% at 100% 100%, #000 0%, transparent 70%);
+  mask-image:
+    radial-gradient(ellipse 70% 60% at 0% 0%, #000 0%, transparent 70%),
+    radial-gradient(ellipse 55% 45% at 100% 100%, #000 0%, transparent 70%);
+}
+
+/* ==========================================================================
+   LABEL MIRING (.tag) — sama dengan index.html
+   ========================================================================== */
+.tag {
+  display: inline-block;
+  padding: 7px 18px;
+  font-family: var(--font-bebas);
+  letter-spacing: 0.12em;
+  font-size: 15px;
+  line-height: 1;
+  white-space: nowrap;
+  transform: skewX(-12deg);
+}
+.tag span {
+  color: var(--red);
+}
+.tag-brand {
+  background: var(--black);
+  color: var(--white);
+  border: 2px solid var(--white);
+  border-left: 0;
+  padding-left: 28px;
+}
+.tag-role {
+  background: var(--white);
+  color: var(--black);
+  border: 2px solid var(--black);
+  border-right: 0;
+  padding-right: 28px;
+}
+
+/* ==========================================================================
+   SCROLL PROGRESS
+   ========================================================================== */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 5px;
+  width: 0;
+  z-index: 300;
+  background: var(--white);
+  box-shadow: 0 2px 0 var(--black);
+}
+
+/* ==========================================================================
+   HEADER SUB-PAGE + TOMBOL KEMBALI (active ribbon)
+   ========================================================================== */
+.p5-subpage-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  pointer-events: none; /* hanya blok-nya yang bisa diklik */
+}
+.subpage-header-container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 20px;
+}
+.subpage-header-container > *,
+.header-left > * {
+  pointer-events: auto;
+}
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  min-width: 0;
+}
+
+.p5-back-button {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px 8px 26px;
+  color: var(--white);
+  font-family: var(--font-bebas);
+  font-size: 20px;
+  letter-spacing: 0.1em;
+  line-height: 1;
+  white-space: nowrap;
+}
+/* papan hitam miring + pita merah di kiri */
+.p5-back-button::before {
+  content: "";
+  position: absolute;
+  inset: 0 -8px 0 -4px;
+  z-index: -1;
+  background: linear-gradient(90deg, var(--red) 0 16px, var(--black) 16px);
+  border: 2px solid var(--white);
+  transform: skewX(-12deg);
+  box-shadow: 6px 6px 0 var(--ink-shadow);
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+.p5-back-button:hover::before,
+.p5-back-button:focus-visible::before {
+  background: linear-gradient(90deg, var(--white) 0 16px, var(--red) 16px);
+  transform: skewX(-12deg) translateX(-4px);
+  box-shadow: 9px 9px 0 var(--black);
+}
+/* tombol panah putih bergaya menu index */
+.back-arrow {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  background: var(--white);
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+.back-arrow i {
+  width: 0;
+  height: 0;
+  border-right: 11px solid var(--black);
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  margin-right: 2px;
+  transition: border-right-color 0.2s ease;
+}
+.p5-back-button:hover .back-arrow,
+.p5-back-button:focus-visible .back-arrow {
+  background: var(--black);
+}
+.p5-back-button:hover .back-arrow i,
+.p5-back-button:focus-visible .back-arrow i {
+  border-right-color: var(--white);
+}
+.back-label {
+  padding-top: 2px;
+}
+.esc-badge {
+  display: inline-block;
+  padding: 4px 9px 3px;
+  background: var(--white);
+  color: var(--black);
+  font: inherit;
+  font-size: 15px;
+  letter-spacing: 0.1em;
+  transform: skewX(-10deg);
+  box-shadow: 2px 2px 0 var(--red);
+}
+
+/* ==========================================================================
+   LAYOUT SUB-PAGE & JUDUL SECTION
+   ========================================================================== */
+.subpage-content-wrap {
+  position: relative;
+  z-index: 1;
+  padding: 104px 0 calc(var(--hud-h) + 70px);
+}
+.section-container {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+.section-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 26px;
+}
+/* badge informasi: blok miring hitam-putih seperti "PORTFOLIO // NOVAL" */
+.section-tag-badge {
+  padding: 7px 18px;
+  background: var(--black);
+  color: var(--white);
+  border: 2px solid var(--white);
+  font-family: var(--font-bebas);
+  font-size: 15px;
+  letter-spacing: 0.18em;
+  line-height: 1;
+  transform: skewX(-12deg) !important; /* AOS (gallery) menimpa transform */
+  box-shadow: 4px 4px 0 var(--ink-shadow);
+}
+/* pita bawah judul: blok putih-hitam seperti "NOVAL · WEB DEVELOPER" */
+.section-tape {
+  margin-left: 6px;
+  padding: 7px 20px;
+  background: var(--white);
+  color: var(--black);
+  border: 2px solid var(--black);
+  font-family: var(--font-bebas);
+  font-size: 15px;
+  letter-spacing: 0.2em;
+  line-height: 1;
+  transform: skewX(-12deg);
+  box-shadow: 4px 4px 0 var(--ink-shadow);
+}
+
+.section-subtitle {
+  display: inline-block;
+  max-width: 40em;
+  margin: 4px 0 40px 6px;
+  padding: 10px 20px 11px;
+  background: var(--black);
+  color: var(--white);
+  font-size: clamp(13px, 1.5vw, 15px);
+  font-weight: 500;
+  line-height: 1.55;
+  transform: skewX(-6deg) !important; /* AOS menimpa transform */
+  box-shadow: 5px 5px 0 var(--ink-shadow);
+}
+
+/* ==========================================================================
+   TIPOGRAFI RANSOM NOTE (dibuat oleh script.js → .ransom-char)
+   Identik dengan huruf kolase di index.html
+   ========================================================================== */
+.section-title {
+  display: block;
+  font-size: clamp(30px, 6.2vw, 72px);
+  line-height: 1.28;
+  font-weight: 400;
+}
+.ransom-char {
+  display: inline-block;
+  padding: 0.02em 0.13em 0;
+  margin: 0 0.012em;
+  font-family: var(--font-anton);
+  line-height: 1.04;
+  text-transform: uppercase;
+  box-shadow: 0 0 0 0.035em var(--black);
+  transition: transform 0.18s ease;
+}
+.ransom-space {
+  display: inline-block;
+  width: 0.42em;
+}
+/* kombinasi warna: putih-hitam · hitam-putih · merah-putih · putih-merah */
+.ransom-style-1 {
+  background: var(--white);
+  color: var(--black);
+}
+.ransom-style-2 {
+  background: var(--black);
+  color: var(--white);
+  box-shadow: 0 0 0 0.05em var(--white);
+}
+.ransom-style-3 {
+  background: var(--red-light);
+  color: var(--white);
+  box-shadow: 0 0 0 0.05em var(--black);
+}
+.ransom-style-4 {
+  background: var(--white);
+  color: var(--red);
+}
+/* variasi font seperti index (Anton / Archivo / Playfair / Bebas) */
+.ransom-char:nth-child(5n + 1) { font-family: var(--font-anton); }
+.ransom-char:nth-child(5n + 2) { font-family: var(--font-archivo); font-size: 0.9em; }
+.ransom-char:nth-child(5n + 3) { font-family: var(--font-serif); font-weight: 900; font-size: 0.92em; }
+.ransom-char:nth-child(5n + 4) { font-family: var(--font-bebas); font-size: 1.08em; }
+.ransom-char:nth-child(5n + 5) { font-family: var(--font-anton); }
+.section-title:hover .ransom-char {
+  translate: 0 -2px;
+}
+
+/* ==========================================================================
+   KOMPONEN DASAR: .p5-box, tombol
+   ========================================================================== */
+.p5-box {
+  position: relative;
+  background: var(--black);
+  color: var(--white);
+  border: 2px solid var(--white);
+}
+
+.p5-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 28px;
+  background: var(--black);
+  color: var(--white);
+  border: 3px solid var(--white);
+  font-family: var(--font-bebas);
+  font-size: 20px;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  cursor: pointer;
+  transform: skewX(-12deg);
+  box-shadow: 6px 6px 0 var(--ink-shadow);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+.p5-btn:hover,
+.p5-btn:focus-visible {
+  background: var(--white);
+  color: var(--black);
+  transform: skewX(-12deg) translate(-3px, -3px);
+  box-shadow: 9px 9px 0 var(--black);
+}
+.p5-btn-text {
+  display: inline-block;
+  padding-top: 2px;
+}
+.p5-btn-large {
+  padding: 16px 40px;
+  font-size: clamp(17px, 2.2vw, 24px);
+}
+.p5-btn-small {
+  padding: 9px 20px;
+  font-size: 17px;
+  box-shadow: 4px 4px 0 var(--red);
+}
+.p5-btn-small:hover,
+.p5-btn-small:focus-visible {
+  background: var(--red);
+  color: var(--white);
+  border-color: var(--black);
+  box-shadow: 6px 6px 0 var(--black);
+}
+.section-action-center {
+  display: flex;
+  justify-content: center;
+  margin-top: 56px;
+}
+
+/* ==========================================================================
+   PROJECTS · CERTIFICATES · GALLERY — kartu panel miring
+   ========================================================================== */
+.p5-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr));
+  gap: 44px 34px;
+  padding: 8px 14px 14px 8px;
+}
+
+/* !important: AOS menimpa `transform`, jadi kemiringan harus dipaksa */
+.cert-card,
+.project-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--white);
+  color: var(--black);
+  border: 4px solid var(--white);
+  box-shadow: 0 0 0 3px var(--black), 8px 8px 0 3px var(--black);
+  transform: skewX(-3deg) !important;
+  transition:
+    transform 0.14s cubic-bezier(0.2, 0.9, 0.3, 1),
+    box-shadow 0.14s cubic-bezier(0.2, 0.9, 0.3, 1),
+    opacity 0.6s ease !important;
+}
+.cert-card:hover,
+.project-card:hover {
+  transform: skewX(-3deg) translate(-6px, -6px) !important;
+  box-shadow: 0 0 0 3px var(--black), 14px 14px 0 3px var(--black);
+}
+
+/* header kartu hitam pekat + label merah menyala */
+.card-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 12px;
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--font-bebas);
+  font-size: 15px;
+  letter-spacing: 0.14em;
+  line-height: 1;
+}
+.card-top-bar > span:first-child {
+  padding: 4px 12px 3px;
+  background: var(--red);
+  color: var(--white);
+}
+.card-stamp-mini {
+  padding: 3px 9px 2px;
+  background: var(--white);
+  color: var(--black);
+  letter-spacing: 0.12em;
+}
+
+.card-img-wrap {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--black);
+  border-bottom: 4px solid var(--black);
+  cursor: zoom-in;
+}
+.cert-card .card-img-wrap {
+  aspect-ratio: 4 / 3;
+}
+.card-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+.cert-card .card-img-wrap img {
+  object-fit: contain;
+}
+.card-img-wrap::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 44px;
+  height: 44px;
+  background: var(--red);
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+  pointer-events: none;
+}
+.cert-card:hover .card-img-wrap img,
+.project-card:hover .card-img-wrap img {
+  transform: scale(1.05);
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  padding: 16px 18px 20px;
+}
+.card-title {
+  font-family: var(--font-anton);
+  font-size: 23px;
+  line-height: 1.15;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--black);
+}
+.card-title::after {
+  content: "";
+  display: block;
+  width: 54px;
+  height: 5px;
+  margin-top: 8px;
+  background: var(--red);
+  transform: skewX(-20deg);
+}
+.card-desc {
+  font-size: 14px;
+  line-height: 1.55;
+  font-weight: 500;
+  color: #2a2628;
+}
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 6px;
+}
+.card-tag {
+  padding: 3px 10px 2px;
+  background: var(--red);
+  color: var(--white);
+  border: 2px solid var(--black);
+  font-family: var(--font-bebas);
+  font-size: 15px;
+  letter-spacing: 0.1em;
+  line-height: 1.1;
+}
+
+.empty-state {
+  grid-column: 1 / -1;
+  justify-self: start;
+  padding: 12px 22px;
+  background: var(--black);
+  color: var(--white);
+  border: 2px solid var(--white);
+  font-family: var(--font-bebas);
+  font-size: 20px;
+  letter-spacing: 0.14em;
+  transform: skewX(-8deg);
+  box-shadow: 5px 5px 0 var(--ink-shadow);
+}
+
+/* ---------- GALLERY: tab filter ---------- */
+.gallery-page-head {
+  margin-bottom: 8px;
+}
+.gallery-page-head .section-tag-badge {
+  display: inline-block;
+  margin-bottom: 14px;
+}
+.gallery-tabs-wrap {
+  margin: 0 0 44px;
+}
+.p5-tabs-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 20px;
+  padding: 0 8px 6px;
+}
+.p5-tab-btn {
+  padding: 11px 24px 9px;
+  background: var(--black);
+  color: var(--white);
+  border: 2px solid var(--white);
+  font-family: var(--font-bebas);
+  font-size: 19px;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  cursor: pointer;
+  transform: skewX(-12deg);
+  box-shadow: 5px 5px 0 var(--ink-shadow);
+  transition: transform 0.14s ease, background 0.14s ease, color 0.14s ease, box-shadow 0.14s ease;
+}
+.tab-text {
+  display: inline-block;
+}
+.p5-tab-btn:hover,
+.p5-tab-btn:focus-visible {
+  background: var(--white);
+  color: var(--black);
+  transform: skewX(-12deg) translate(-3px, -3px);
+  box-shadow: 8px 8px 0 var(--black);
+}
+.p5-tab-btn.active {
+  background: var(--white);
+  color: var(--black);
+  border-color: var(--black);
+  box-shadow: 5px 5px 0 var(--black), inset 0 -6px 0 var(--red);
+}
+
+/* ==========================================================================
+   SKILLS — status parameter ala RPG
+   ========================================================================== */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 26px 22px;
+  margin-bottom: 60px;
+  padding: 0 10px 6px 6px;
+}
+.skill-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 12px 16px;
+  background: var(--black);
+  color: var(--white);
+  border: 3px solid var(--white);
+  transform: skewX(-8deg) !important;
+  box-shadow: 6px 6px 0 var(--ink-shadow);
+  transition: transform 0.14s ease, background 0.14s ease, box-shadow 0.14s ease, opacity 0.6s ease !important;
+}
+.skill-card:hover {
+  background: var(--red);
+  transform: skewX(-8deg) translate(-4px, -4px) !important;
+  box-shadow: 10px 10px 0 var(--black);
+}
+.skill-icon-wrap {
+  display: grid;
+  place-items: center;
+  width: 66px;
+  height: 66px;
+  background: var(--white);
+  border: 3px solid var(--red);
+  transition: border-color 0.14s ease;
+}
+.skill-card:hover .skill-icon-wrap {
+  border-color: var(--black);
+}
+.skill-icon-wrap img {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+  transform: skewX(8deg);
+}
+.skill-name {
+  font-family: var(--font-bebas);
+  font-size: 21px;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-align: center;
+}
+.skill-name::after {
+  content: "";
+  display: block;
+  width: 30px;
+  height: 4px;
+  margin: 8px auto 0;
+  background: var(--red);
+  transition: background 0.14s ease;
+}
+.skill-card:hover .skill-name::after {
+  background: var(--white);
+}
+
+.skill-meters-box {
+  padding: 0 0 18px;
+  transform: skewX(-3deg) !important;
+  box-shadow: 8px 8px 0 var(--ink-shadow);
+  overflow: hidden;
+}
+.meter-title-bar {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 28px 8px;
+  background: var(--red);
+  color: var(--white);
+  border-bottom: 2px solid var(--white);
+  font-family: var(--font-bebas);
+  font-size: 20px;
+  letter-spacing: 0.18em;
+  line-height: 1;
+}
+.skill-bars-container {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: 26px 32px 10px;
+}
+.skill-bar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
+  font-family: var(--font-bebas);
+  font-size: 21px;
+  letter-spacing: 0.12em;
+  line-height: 1;
+}
+.skill-bar-percent {
+  padding: 2px 10px 1px;
+  background: var(--red);
+  color: var(--white);
+  letter-spacing: 0.08em;
+}
+.skill-bar-track {
+  height: 22px;
+  padding: 3px;
+  background: var(--black);
+  border: 3px solid var(--white);
+  transform: skewX(-24deg);
+  overflow: hidden;
+}
+.skill-bar-fill {
+  height: 100%;
+  width: 0;
+  background: repeating-linear-gradient(-60deg, var(--red) 0 8px, var(--red-light) 8px 16px);
+  border-right: 3px solid var(--white);
+  transition: width 1.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* ==========================================================================
+   ABOUT — kotak deskripsi jajar genjang hitam
+   ========================================================================== */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.45fr 1fr;
+  gap: 44px 40px;
+  align-items: start;
+  padding: 16px 10px 10px 10px;
+}
+.about-card {
+  padding: 34px 40px 36px;
+  transform: skewX(-4deg) !important;
+  box-shadow: 8px 8px 0 var(--ink-shadow);
+}
+.about-card::before {
+  content: "BIO // NOVAL";
+  position: absolute;
+  top: -17px;
+  left: 24px;
+  padding: 5px 16px 3px;
+  background: var(--red);
+  color: var(--white);
+  border: 2px solid var(--white);
+  font-family: var(--font-bebas);
+  font-size: 16px;
+  letter-spacing: 0.16em;
+  line-height: 1;
+}
+.about-bio {
+  font-size: clamp(15px, 1.7vw, 17px);
+  line-height: 1.85;
+  font-weight: 500;
+  color: var(--white);
+}
+.about-bio strong {
+  color: var(--red-light);
+  font-weight: 700;
+}
+.about-bio em {
+  font-style: normal;
+  border-bottom: 3px solid var(--red);
+}
+
+.about-highlights-col {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.highlight-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 22px;
+  transform: skewX(-4deg);
+  box-shadow: 6px 6px 0 var(--ink-shadow);
+  transition: transform 0.14s ease, background 0.14s ease, box-shadow 0.14s ease;
+}
+.highlight-item:hover {
+  background: var(--red);
+  transform: skewX(-4deg) translate(8px, -3px);
+  box-shadow: 10px 10px 0 var(--black);
+}
+.highlight-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 52px;
+  height: 52px;
+  background: var(--red);
+  border: 2px solid var(--white);
+  font-size: 24px;
+  transition: background 0.14s ease;
+}
+.highlight-item:hover .highlight-icon {
+  background: var(--black);
+}
+.highlight-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.highlight-label {
+  font-family: var(--font-bebas);
+  font-size: 15px;
+  letter-spacing: 0.2em;
+  line-height: 1;
+  color: var(--red-light);
+  transition: color 0.14s ease;
+}
+.highlight-item:hover .highlight-label {
+  color: var(--white);
+}
+.highlight-val {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--white);
+}
+
+/* ==========================================================================
+   TIMELINE
+   ========================================================================== */
+.timeline {
+  position: relative;
+  max-width: 880px;
+  padding: 14px 10px 10px 58px;
+}
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 18px;
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  background: var(--white);
+  box-shadow: 3px 3px 0 var(--black);
+}
+.timeline-item {
+  position: relative;
+  margin-bottom: 42px;
+}
+.timeline-item:last-child {
+  margin-bottom: 0;
+}
+.timeline-dot {
+  position: absolute;
+  left: -52px;
+  top: 28px;
+  width: 24px;
+  height: 24px;
+  background: var(--red);
+  border: 4px solid var(--white);
+  box-shadow: 0 0 0 3px var(--black);
+  transform: rotate(45deg);
+  transition: background 0.14s ease;
+}
+.timeline-item:hover .timeline-dot {
+  background: var(--black);
+}
+.timeline-content {
+  position: relative;
+  padding: 22px 30px 24px;
+  background: var(--black);
+  color: var(--white);
+  border: 2px solid var(--white);
+  transform: skewX(-4deg);
+  box-shadow: 8px 8px 0 var(--ink-shadow);
+  transition: transform 0.14s ease, box-shadow 0.14s ease;
+}
+.timeline-item:hover .timeline-content {
+  transform: skewX(-4deg) translate(8px, -3px);
+  box-shadow: 12px 12px 0 var(--black);
+}
+.timeline-year {
+  display: inline-block;
+  margin-bottom: 12px;
+  padding: 4px 14px 3px;
+  background: var(--red);
+  color: var(--white);
+  font-family: var(--font-bebas);
+  font-size: 17px;
+  letter-spacing: 0.16em;
+  line-height: 1.1;
+}
+.timeline-content h4 {
+  margin-bottom: 8px;
+  font-family: var(--font-anton);
+  font-size: clamp(20px, 2.6vw, 26px);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--white);
+}
+.timeline-content p {
+  font-size: 15px;
+  line-height: 1.7;
+  font-weight: 500;
+  color: #ececef;
+}
+
+/* ==========================================================================
+   CONTACT — Phantom Thieves Calling Card
+   ========================================================================== */
+.calling-card-box {
+  position: relative;
+  max-width: 860px;
+  margin: 10px auto 0;
+  padding-bottom: 40px;
+  overflow: hidden;
+  background: var(--white);
+  color: var(--black);
+  border: 5px solid var(--black);
+  transform: skewX(-3deg) !important;
+  box-shadow: 10px 10px 0 var(--ink-shadow);
+}
+.calling-card-box::before,
+.calling-card-box::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+}
+/* sobekan merah (kiri bawah) & hitam (kanan bawah) */
+.calling-card-box::before {
+  left: 0;
+  bottom: 0;
+  width: 220px;
+  height: 120px;
+  background: var(--red);
+  clip-path: polygon(0 0, 100% 100%, 0 100%);
+}
+.calling-card-box::after {
+  right: 0;
+  bottom: 0;
+  width: 150px;
+  height: 90px;
+  background: var(--black);
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+}
+.calling-card-box > * {
+  position: relative;
+  z-index: 1;
+}
+.calling-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 28px 12px;
+  background: var(--black);
+  color: var(--white);
+}
+.calling-card-title {
+  font-family: var(--font-anton);
+  font-size: clamp(18px, 3.2vw, 30px);
+  letter-spacing: 0.14em;
+  text-align: center;
+  line-height: 1.1;
+}
+.star-mark {
+  color: var(--red-light);
+  font-size: 16px;
+  letter-spacing: 0.2em;
+  white-space: nowrap;
+}
+.calling-card-msg {
+  padding: 30px clamp(20px, 5vw, 48px) 10px;
+  font-size: clamp(15px, 1.8vw, 18px);
+  font-weight: 500;
+  line-height: 1.75;
+  text-align: center;
+  color: var(--black);
+}
+.contact-icons-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 22px;
+  padding: 22px clamp(16px, 4vw, 40px) 0;
+}
+.p5-icon-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 132px;
+  padding: 18px 10px 14px;
+  background: var(--black);
+  color: var(--white);
+  border: 3px solid var(--black);
+  cursor: pointer;
+  transform: skewX(-8deg);
+  box-shadow: 6px 6px 0 var(--red);
+  transition: transform 0.14s ease, background 0.14s ease, box-shadow 0.14s ease;
+}
+.p5-icon-button img {
+  width: 36px;
+  height: 36px;
+  filter: invert(1);
+  transform: skewX(8deg);
+  transition: transform 0.14s ease;
+}
+.icon-caption {
+  font-family: var(--font-bebas);
+  font-size: 18px;
+  letter-spacing: 0.14em;
+  line-height: 1;
+}
+.p5-icon-button:hover,
+.p5-icon-button:focus-visible {
+  background: var(--red);
+  transform: skewX(-8deg) translate(-4px, -4px);
+  box-shadow: 10px 10px 0 var(--black);
+}
+.p5-icon-button:hover img {
+  transform: skewX(8deg) scale(1.12);
+}
+
+.footer-sign {
+  margin-top: 52px;
+  text-align: center;
+}
+.footer-note {
+  display: inline-block;
+  max-width: 100%;
+  padding: 10px 22px 9px;
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--font-bebas);
+  font-size: clamp(13px, 2.2vw, 17px);
+  letter-spacing: 0.14em;
+  line-height: 1.5;
+  transform: skewX(-8deg);
+  box-shadow: 5px 5px 0 var(--ink-shadow);
+}
+
+/* ==========================================================================
+   MODAL (preview gambar & email)
+   ========================================================================== */
+.p5-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 20px;
+  background:
+    radial-gradient(rgba(217, 4, 41, 0.55) 1.4px, transparent 1.8px) 0 0 / 7px 7px,
+    rgba(11, 9, 10, 0.92);
+}
+.p5-modal-dialog {
+  position: relative;
+  max-width: min(94vw, 1040px);
+  max-height: 92vh;
+}
+.p5-modal-content {
+  display: flex;
+}
+.p5-modal-img {
+  max-width: 100%;
+  max-height: 84vh;
+  margin: 0 auto;
+  background: var(--white);
+  border: 4px solid var(--white);
+  box-shadow: 10px 10px 0 var(--red);
+}
+.p5-close-btn {
+  position: absolute;
+  top: -16px;
+  right: -12px;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  background: var(--red);
+  color: var(--white);
+  border: 3px solid var(--white);
+  font-family: var(--font-anton);
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  transform: skewX(-10deg);
+  box-shadow: 4px 4px 0 var(--black);
+  transition: background 0.14s ease, color 0.14s ease;
+}
+.p5-close-btn:hover,
+.p5-close-btn:focus-visible {
+  background: var(--white);
+  color: var(--black);
+}
+
+.email-dialog {
+  width: min(92vw, 520px);
+  padding: 32px 34px 34px;
+  transform: skewX(-3deg);
+  box-shadow: 10px 10px 0 var(--red);
+}
+.p5-dialog-header {
+  margin-bottom: 14px;
+}
+.p5-dialog-tag {
+  display: inline-block;
+  margin-bottom: 10px;
+  padding: 4px 14px 3px;
+  background: var(--red);
+  color: var(--white);
+  font-family: var(--font-bebas);
+  font-size: 15px;
+  letter-spacing: 0.2em;
+  line-height: 1.1;
+}
+.p5-dialog-header h3 {
+  font-family: var(--font-anton);
+  font-size: clamp(22px, 4vw, 30px);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.email-dialog > p {
+  margin-bottom: 18px;
+  font-size: 15px;
+  line-height: 1.6;
+  font-weight: 500;
+}
+.email-field-box {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 12px 14px 12px 18px;
+  background: var(--white);
+  color: var(--black);
+  border: 3px solid var(--red);
+}
+#emailText {
+  font-size: 16px;
+  font-weight: 700;
+  word-break: break-all;
+}
+
+/* ==========================================================================
+   BOTTOM HUD BAR — struktur sama dengan index (.hints + .status)
+   ========================================================================== */
+.p5-hud-bottom-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  height: var(--hud-h);
+  padding: 0 clamp(16px, 4vw, 48px);
+  background: var(--black);
+  border-top: 3px solid var(--white);
+  font-family: var(--font-bebas);
+  letter-spacing: 0.1em;
+  font-size: 15px;
+  color: var(--white);
+}
+.p5-hud-bottom-bar .hints {
+  display: flex;
+  gap: 22px;
+  min-width: 0;
+  white-space: nowrap;
+}
+.p5-hud-bottom-bar .hints kbd {
+  display: inline-block;
+  margin-right: 6px;
+  padding: 3px 8px;
+  background: var(--white);
+  color: var(--black);
+  font: inherit;
+  transform: skewX(-10deg);
+  box-shadow: 2px 2px 0 var(--red);
+}
+.p5-hud-bottom-bar .status {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  color: var(--white);
+  white-space: nowrap;
+}
+.p5-hud-bottom-bar .status .wib {
+  margin-left: 8px;
+  padding: 3px 8px 2px;
+  background: var(--red);
+  color: var(--white);
+  font-size: 14px;
+  transform: skewX(-10deg);
+}
+.p5-hud-bottom-bar .status .dash {
+  margin: 0 8px;
+  color: var(--red-light);
+}
+
+/* tombol kembali ke atas */
+.p5-back-to-top {
+  position: fixed;
+  right: clamp(14px, 3vw, 32px);
+  bottom: calc(var(--hud-h) + 20px);
+  z-index: 95;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  background: var(--black);
+  color: var(--white);
+  border: 2px solid var(--white);
+  font-size: 13px;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: skewX(-10deg) translateY(12px);
+  box-shadow: 4px 4px 0 var(--ink-shadow);
+  transition: opacity 0.2s ease, transform 0.2s ease, background 0.14s ease, color 0.14s ease, visibility 0.2s;
+}
+.p5-back-to-top span {
+  display: block;
+  transform: skewX(10deg);
+}
+.p5-back-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: skewX(-10deg);
+}
+.p5-back-to-top:hover,
+.p5-back-to-top:focus-visible {
+  background: var(--white);
+  color: var(--black);
+}
+
+/* ==========================================================================
+   TABLET & HP  (≤ 768px)
+   ========================================================================== */
+@media (max-width: 768px) {
+  :root {
+    --hud-h: 42px;
+  }
+
+  body.subpage-body::after {
+    width: calc(100vw + 70px);
+    opacity: 0.22;
+    clip-path: none;
+  }
+
+  /* header */
+  .subpage-header-container {
+    padding-top: 14px;
+  }
+  .tag-role {
+    display: none;
+  }
+  .tag {
+    font-size: 13px;
+    padding: 6px 14px;
+  }
+  .tag-brand {
+    padding-left: 18px;
+  }
+  .header-left {
+    gap: 22px;
+  }
+  .p5-back-button {
+    font-size: 17px;
+    gap: 9px;
+    padding: 7px 10px 7px 22px;
+  }
+  .back-arrow {
+    width: 22px;
+    height: 22px;
+  }
+  .back-arrow i {
+    border-right-width: 9px;
+    border-top-width: 6px;
+    border-bottom-width: 6px;
+  }
+  .esc-badge {
+    font-size: 13px;
+    padding: 3px 7px 2px;
+  }
+
+  .subpage-content-wrap {
+    padding-top: 84px;
+  }
+  .section-header {
+    gap: 12px;
+    margin-bottom: 22px;
+  }
+  .section-title {
+    font-size: clamp(26px, 9.6vw, 46px);
+    line-height: 1.32;
+  }
+  .section-tag-badge,
+  .section-tape {
+    font-size: 13px;
+    letter-spacing: 0.14em;
+  }
+  .section-subtitle {
+    margin-bottom: 30px;
+    margin-left: 2px;
+  }
+
+  /* kartu */
+  .p5-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 38px;
+    padding: 6px 12px 12px 4px;
+  }
+  .cert-card,
+  .project-card {
+    box-shadow: 0 0 0 3px var(--black), 6px 6px 0 3px var(--black);
+  }
+  .card-title {
+    font-size: 21px;
+  }
+  .section-action-center {
+    margin-top: 42px;
+  }
+  .p5-btn-large {
+    padding: 14px 22px;
+    text-align: center;
+  }
+  .p5-tabs-bar {
+    gap: 14px;
+  }
+  .p5-tab-btn {
+    font-size: 16px;
+    padding: 10px 16px 8px;
+  }
+  .gallery-tabs-wrap {
+    margin-bottom: 34px;
+  }
+
+  /* skills */
+  .skills-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px 16px;
+    margin-bottom: 48px;
+  }
+  .skill-name {
+    font-size: 18px;
+  }
+  .skill-bars-container {
+    padding: 22px 22px 6px;
+    gap: 20px;
+  }
+  .meter-title-bar {
+    padding: 9px 20px 7px;
+    font-size: 17px;
+  }
+
+  /* about */
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding: 22px 8px 6px 4px;
+  }
+  .about-card {
+    padding: 30px 26px 30px;
+  }
+  .highlight-item {
+    padding: 14px 16px;
+  }
+
+  /* timeline */
+  .timeline {
+    padding: 10px 8px 6px 44px;
+  }
+  .timeline::before {
+    left: 12px;
+    width: 5px;
+  }
+  .timeline-dot {
+    left: -40px;
+    top: 26px;
+    width: 20px;
+    height: 20px;
+    border-width: 3px;
+  }
+  .timeline-content {
+    padding: 18px 20px 20px;
+  }
+  .timeline-item {
+    margin-bottom: 34px;
+  }
+
+  /* contact */
+  .calling-card-top {
+    padding: 12px 14px 10px;
+  }
+  .star-mark {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+  }
+  .contact-icons-row {
+    gap: 18px 16px;
+  }
+  .p5-icon-button {
+    width: calc(50% - 12px);
+    min-width: 120px;
+  }
+  .calling-card-box::before {
+    width: 150px;
+    height: 80px;
+  }
+  .calling-card-box::after {
+    width: 100px;
+    height: 60px;
+  }
+  .footer-sign {
+    margin-top: 40px;
+  }
+  .email-dialog {
+    padding: 28px 22px 26px;
+  }
+
+  /* modal */
+  .p5-modal {
+    padding: 20px 14px;
+  }
+  .p5-close-btn {
+    top: -14px;
+    right: -6px;
+  }
+
+  /* HUD */
+  .p5-hud-bottom-bar {
+    font-size: 13px;
+  }
+  .p5-hud-bottom-bar .hints {
+    gap: 14px;
+  }
+  .p5-hud-bottom-bar .status {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 520px) {
+  /* ruang sempit: sembunyikan label brand & hint keyboard selain ESC */
+  .tag-brand {
+    display: none;
+  }
+  .p5-hud-bottom-bar .hints > span:not(:nth-last-child(2)) {
+    display: none; /* sisakan ESC BACK + tombol SFX */
+  }
+  .p5-hud-bottom-bar .status .dash,
+  .p5-hud-bottom-bar .status #hudDate {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   GERAK DIKURANGI
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* ==========================================================================
+   PAGE TRANSITION — Circular Reveal / Iris Wipe (dibuat oleh JS)
+   Hitam pekat + cincin merah + halftone tipis. Keluar: dari kanan atas. Masuk: menyusut ke kiri bawah.
+   ========================================================================== */
+.p5-page-transition-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  visibility: hidden;
+  pointer-events: none;
+  background:
+    radial-gradient(rgba(217, 4, 41, 0.45) 1.2px, transparent 1.7px) 0 0 / 8px 8px,
+    radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1.5px) 4px 4px / 8px 8px,
+    /* cahaya merah: posisi TETAP di pojok kiri bawah (tidak ikut berpindah) */
+    radial-gradient(circle at 0% 100%, rgba(255, 0, 30, 0.5) 0, transparent 40%),
+    #0b090a;
+  /* cincin merah menyala di tepi layar */
+  box-shadow:
+    inset 0 0 0 10px #d90429,
+    inset 0 0 0 16px #0b090a,
+    inset 0 0 0 19px #ff001e;
+  clip-path: circle(0% at 100% 0%);
+  will-change: clip-path;
+}
+.p5-page-transition-overlay.is-animating {
+  transition: clip-path 0.55s cubic-bezier(0.77, 0, 0.175, 1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .p5-page-transition-overlay {
+    display: none;
+  }
+}
+
+/* Penutup awal: aktif sejak render pertama halaman tujuan (kelas dipasang skrip di <head>),
+   sampai overlay JS siap mengambil alih -> tidak ada kedipan di tengah transisi. */
+html.p5-arriving::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  pointer-events: none;
+  background:
+    radial-gradient(rgba(217, 4, 41, 0.45) 1.2px, transparent 1.7px) 0 0 / 8px 8px,
+    radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1.5px) 4px 4px / 8px 8px,
+    radial-gradient(circle at 0% 100%, rgba(255, 0, 30, 0.5) 0, transparent 40%),
+    #0b090a;
+  box-shadow:
+    inset 0 0 0 10px #d90429,
+    inset 0 0 0 16px #0b090a,
+    inset 0 0 0 19px #ff001e;
+  /* jaring pengaman: jika JS gagal, penutup lepas sendiri */
+  animation: p5-arriving-failsafe 0s linear 2s forwards;
+}
+@keyframes p5-arriving-failsafe {
+  to {
+    visibility: hidden;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html.p5-arriving::after {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   SFX TOGGLE — chip "SFX: ON / OFF" (shortcut: M)
+   ========================================================================== */
+.sfx-toggle {
+  display: inline-flex;
+  align-items: center;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.sfx-toggle .sfx-state {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 2px 9px 1px;
+  background: var(--red);
+  color: var(--white);
+  font-weight: 400;
+  transform: skewX(-10deg);
+  box-shadow: 2px 2px 0 var(--black);
+  transition: transform 0.12s ease, background 0.12s ease, color 0.12s ease;
+}
+.sfx-toggle:hover .sfx-state,
+.sfx-toggle:focus-visible .sfx-state {
+  transform: skewX(-10deg) translate(-2px, -2px);
+}
+.sfx-toggle:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: 4px;
+}
+.sfx-toggle.is-off {
+  opacity: 0.85;
+}
+.sfx-toggle.is-off .sfx-state {
+  background: var(--white);
+  color: var(--black);
+}
+
+/* chip SFX di dalam bar HUD hitam: bayangan merah agar tetap terbaca */
+.p5-hud-bottom-bar .sfx-toggle .sfx-state {
+  box-shadow: 2px 2px 0 rgba(255, 255, 255, 0.35);
+}
+
+/* ---------- kursor kustom Persona 5 + kanvas bintang (bgfx.js) ---------- */
+html.p5-has-cursor,
+html.p5-has-cursor * {
+  cursor: none !important;
+}
+.p5-cursor {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 100006;
+  width: 34px;
+  height: 38px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+  will-change: transform;
+}
+.p5-cursor.is-on {
+  opacity: 1;
+}
+.p5-cursor svg {
+  display: block;
+  overflow: visible;
+  transform-origin: 3px 2px;
+  transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.18s;
+  filter: drop-shadow(2px 3px 0 rgba(11, 9, 10, 0.55));
+}
+.p5-cursor.is-hot svg {
+  transform: scale(1.5) rotate(-14deg);
+  filter: drop-shadow(0 0 6px rgba(255, 42, 77, 0.95)) drop-shadow(2px 3px 0 rgba(11, 9, 10, 0.55));
+}
+.p5-cursor.is-hot .c-body {
+  fill: #ff2a4d;
+}
+.p5-cursor.is-down svg {
+  transform: scale(0.85);
+}
+.p5-cursor.is-hot.is-down svg {
+  transform: scale(1.25) rotate(-14deg);
+}
+.p5-fxcanvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 100005;
+  pointer-events: none;
+}
+@media (hover: none), (pointer: coarse) {
+  .p5-cursor,
+  .p5-fxcanvas {
+    display: none;
+  }
+}
+
+/* ---------- Pentagon Star Radar (skills.html) ---------- */
+.skill-stats-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: 36px;
+  align-items: start;
+}
+.skill-radar-box {
+  padding: 0 0 22px;
+  transform: skewX(-3deg) !important;
+  box-shadow: 8px 8px 0 var(--ink-shadow);
+  overflow: hidden;
+}
+.skill-radar {
+  position: relative;
+  container-type: inline-size;
+  width: 100%;
+  aspect-ratio: 520 / 470;
+  margin: 14px 0 0;
+}
+.radar-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.radar-bg {
+  fill: rgba(217, 4, 41, 0.12);
+  stroke: none;
+}
+.radar-ring {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.28);
+  stroke-width: 1.5;
+}
+.radar-ring:nth-of-type(5) {
+  stroke: rgba(255, 255, 255, 0.7);
+  stroke-width: 2.5;
+}
+.radar-star {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.22);
+  stroke-width: 1.5;
+  stroke-linejoin: miter;
+}
+.radar-axis {
+  stroke: rgba(255, 255, 255, 0.2);
+  stroke-width: 1.2;
+}
+.radar-stat {
+  transform: scale(0);
+  opacity: 0;
+}
+.skill-radar.is-in .radar-stat {
+  animation: radar-grow 0.95s cubic-bezier(0.2, 0.9, 0.2, 1) forwards;
+}
+.radar-poly {
+  fill: rgba(217, 4, 41, 0.75);
+  stroke: #fff;
+  stroke-width: 4;
+  stroke-linejoin: miter;
+  stroke-miterlimit: 10;
+}
+.radar-dot {
+  fill: #fff;
+  stroke: #0b090a;
+  stroke-width: 2.5;
+}
+@keyframes radar-grow {
+  0% { transform: scale(0) rotate(-24deg); opacity: 0; }
+  60% { opacity: 1; }
+  100% { transform: scale(1) rotate(0); opacity: 1; }
+}
+.radar-label {
+  position: absolute;
+  transform: var(--anc) rotate(var(--tilt)) skewX(-8deg);
+  padding: 0.35em 0.7em 0.3em;
+  border: 2px solid #fff;
+  font-family: var(--font-anton);
+  line-height: 1.05;
+  white-space: nowrap;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  transition: opacity 0.4s 0.5s;
+}
+.skill-radar.is-in .radar-label {
+  opacity: 1;
+}
+.radar-label b {
+  display: block;
+  font-weight: 400;
+  font-size: clamp(10px, 3cqw, 17px);
+  letter-spacing: 0.06em;
+}
+.radar-label small {
+  display: block;
+  font-family: var(--font-bebas);
+  font-size: clamp(8px, 2.3cqw, 13px);
+  letter-spacing: 0.12em;
+}
+.radar-label small i {
+  font-style: normal;
+  margin-left: 4px;
+  padding: 0 5px;
+  background: #d90429;
+  color: #fff;
+}
+.radar-label.is-white { background: #fff; color: #0b090a; }
+.radar-label.is-black { background: #0b090a; color: #fff; }
+.radar-label.is-red { background: #d90429; color: #fff; }
+.radar-label.is-red small i { background: #0b090a; }
+.radar-label.is-white small i,
+.radar-label.is-black small i { background: #d90429; color: #fff; }
+@media (max-width: 960px) {
+  .skill-stats-row { grid-template-columns: 1fr; gap: 30px; }
+}
+@media (max-width: 520px) {
+  .radar-label { padding: 0.25em 0.45em 0.2em; }
+}
+
+/* ---------- JRPG Dialogue Box (about.html) ---------- */
+.jrpg-dialog {
+  --jp-w: clamp(130px, 21vw, 250px);
+  position: relative;
+  margin: 110px 10px 50px;
+  padding-left: calc(var(--jp-w) - 20px);
+}
+.jrpg-portrait {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: var(--jp-w);
+  height: calc(100% + 70px);
+  z-index: 3;
+  pointer-events: none;
+}
+.jrpg-frame {
+  position: absolute;
+  left: 0;
+  right: 8px;
+  bottom: 0;
+  height: calc(100% - 70px);
+  background: repeating-linear-gradient(-62deg, #d90429 0 16px, #a80320 16px 32px);
+  border: 3px solid #fff;
+  transform: skewX(-6deg);
+  box-shadow: 6px 6px 0 var(--ink-shadow);
+}
+.jrpg-portrait img {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  height: 100%;
+  width: auto;
+  max-width: none;
+  transform: translateX(-50%);
+  filter: drop-shadow(0 0 0 #fff) drop-shadow(3px 0 0 #0b090a) drop-shadow(-3px 0 0 #0b090a);
+}
+.jrpg-name {
+  position: absolute;
+  top: -22px;
+  left: calc(var(--jp-w) + 10px);
+  z-index: 4;
+  padding: 6px 22px 4px;
+  background: #d90429;
+  color: #fff;
+  border: 3px solid #fff;
+  font-family: var(--font-bebas);
+  font-size: clamp(17px, 2.4vw, 23px);
+  letter-spacing: 0.16em;
+  line-height: 1;
+  transform: skewX(-12deg) rotate(-1.5deg);
+  box-shadow: 4px 4px 0 var(--ink-shadow);
+}
+.jrpg-box {
+  position: relative;
+  min-height: 168px;
+  padding: 34px 40px 18px 36px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 14px;
+  background: #0b090a;
+  color: #fff;
+  border: 3px solid #fff;
+  outline: none;
+  cursor: pointer;
+  transform: skewX(-3deg);
+  box-shadow: 10px 10px 0 var(--ink-shadow), inset 0 0 0 4px #0b090a, inset 0 0 0 6px #d90429;
+}
+.jrpg-box:focus-visible {
+  box-shadow: 10px 10px 0 var(--ink-shadow), inset 0 0 0 4px #0b090a, inset 0 0 0 6px #fff;
+}
+.jrpg-text {
+  min-height: 3.6em;
+  font-size: clamp(16px, 2vw, 21px);
+  font-weight: 600;
+  line-height: 1.8;
+  letter-spacing: 0.01em;
+}
+.jrpg-box.is-done .jrpg-text::after {
+  content: " ▼";
+  color: #ef233c;
+  font-size: 0.8em;
+  animation: jrpg-blink 0.9s steps(2, jump-none) infinite;
+}
+@keyframes jrpg-blink { 50% { opacity: 0; } }
+.jrpg-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.jrpg-page {
+  font-family: var(--font-bebas);
+  font-size: 18px;
+  letter-spacing: 0.18em;
+  color: rgba(255, 255, 255, 0.6);
+}
+.jrpg-next {
+  padding: 8px 22px 6px;
+  background: #d90429;
+  color: #fff;
+  border: 2px solid #fff;
+  font-family: var(--font-bebas);
+  font-size: 20px;
+  letter-spacing: 0.16em;
+  line-height: 1;
+  cursor: pointer;
+  transform: skewX(-12deg);
+  box-shadow: 4px 4px 0 rgba(255, 255, 255, 0.25);
+  transition: background 0.15s, color 0.15s;
+}
+.jrpg-next:hover {
+  background: #fff;
+  color: #d90429;
+}
+@media (max-width: 640px) {
+  .jrpg-dialog { margin-top: 90px; padding-left: 0; padding-top: 60px; --jp-w: 120px; }
+  .jrpg-portrait { left: 6px; bottom: auto; top: -90px; height: 170px; width: 120px; }
+  .jrpg-frame { display: none; }
+  .jrpg-name { left: 130px; top: -12px; }
+  .jrpg-box { padding: 30px 22px 16px; }
+}
+
+/* ---------- Tombol aksi kartu proyek ---------- */
+.card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+.p5-action {
+  flex: 1 1 auto;
+  min-width: max-content;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 12px 7px;
+  border: 2px solid var(--black);
+  font-family: var(--font-bebas);
+  font-size: 17px;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  transform: skewX(-14deg);
+  box-shadow: 4px 4px 0 var(--black);
+  transition: transform 0.15s, box-shadow 0.15s, background 0.15s, color 0.15s;
+}
+.p5-action span {
+  display: inline-block;
+  transform: skewX(14deg);
+}
+.p5-action-demo {
+  background: var(--red);
+  color: var(--white);
+}
+.p5-action-repo {
+  background: var(--white);
+  color: var(--black);
+}
+.p5-action-demo:hover {
+  background: var(--black);
+  color: var(--white);
+}
+.p5-action-repo:hover {
+  background: var(--black);
+  color: var(--white);
+  border-color: var(--black);
+}
+.p5-action:hover {
+  transform: skewX(-14deg) translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--red);
+}
+.p5-action:active {
+  transform: skewX(-14deg) translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--black);
+}

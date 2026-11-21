@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <script>
+      /* Iris transition: tutup layar sejak render pertama agar tidak berkedip */
+      try { if (sessionStorage.getItem("p5_nav")) document.documentElement.classList.add("p5-arriving"); } catch (e) {}
+    </script>
+    <script src="router.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Noval Joeliawan — Portfolio</title>
+    <meta
+      name="description"
+      content="Portofolio Noval Joeliawan, pelajar SMK Krian 1 Sidoarjo dan web developer."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Bebas+Neue&family=Playfair+Display:wght@900&family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="home.css" />
+    <link rel="stylesheet" href="music.css" />
+  </head>
+  <body>
+    <div class="stage" id="home">
+      <!-- ============ LEFT: identity + menu ============ -->
+      <section class="left">
+        <div class="left-bg" aria-hidden="true"></div>
+        <div class="halftone" aria-hidden="true"></div>
+
+        <div class="tag tag-top-left">PORTFOLIO <span>//</span> NOVAL</div>
+
+        <div class="left-inner">
+          <p class="eyebrow">TAKE A LOOK AT MY WORK</p>
+
+          <h1 class="name ransom" data-text="NOVAL JOELIAWAN" aria-label="Noval Joeliawan"></h1>
+
+          <p class="desc">
+            Pelajar SMK Krian 1 Sidoarjo yang sedang membangun kemampuan di dunia web
+            development, satu proyek kecil setiap minggu, menggunakan HTML, CSS, dan
+            JavaScript.
+          </p>
+
+          <nav aria-label="Menu utama">
+            <ul class="menu" id="menu">
+              <li class="menu-item is-active">
+                <a href="projects.html">
+                  <span class="word ransom" data-text="PROJECTS" aria-label="Projects"></span>
+                  <span class="go" aria-hidden="true"><i></i></span>
+                </a>
+              </li>
+              <li class="menu-item">
+                <a href="skills.html">
+                  <span class="word ransom" data-text="SKILLS" aria-label="Skills"></span>
+                  <span class="go" aria-hidden="true"><i></i></span>
+                </a>
+              </li>
+              <li class="menu-item">
+                <a href="about.html">
+                  <span class="word ransom" data-text="ABOUT" aria-label="About"></span>
+                  <span class="go" aria-hidden="true"><i></i></span>
+                </a>
+              </li>
+              <li class="menu-item">
+                <a href="certificates.html">
+                  <span class="word ransom" data-text="CERTIFICATES" aria-label="Certificates"></span>
+                  <span class="go" aria-hidden="true"><i></i></span>
+                </a>
+              </li>
+              <li class="menu-item">
+                <a href="timeline.html">
+                  <span class="word ransom" data-text="TIMELINE" aria-label="Timeline"></span>
+                  <span class="go" aria-hidden="true"><i></i></span>
+                </a>
+              </li>
+              <li class="menu-item">
+                <a href="gallery.html">
+                  <span class="word ransom" data-text="GALLERY" aria-label="Gallery"></span>
+                  <span class="go" aria-hidden="true"><i></i></span>
+                </a>
+              </li>
+              <li class="menu-item">
+                <a href="contact.html">
+                  <span class="word ransom" data-text="CONTACT" aria-label="Contact"></span>
+                  <span class="go" aria-hidden="true"><i></i></span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+
+        <div class="hints hud-controls-left">
+          <span aria-hidden="true"><kbd>↑↓</kbd> SELECT</span>
+          <span aria-hidden="true"><kbd>ENTER</kbd> CONFIRM</span>
+          <button type="button" class="sfx-toggle" id="sfxToggle" aria-pressed="true" aria-label="Efek suara: aktif (tekan M untuk mengubah)"><kbd>M</kbd> SFX: <b class="sfx-state">ON</b></button>
+        </div>
+      </section>
+
+      <!-- ============ RIGHT: portrait ============ -->
+      <section class="right">
+        <div class="right-edge" aria-hidden="true"></div>
+        <div class="right-bg" aria-hidden="true"><div class="shards"></div></div>
+
+        <div class="tag tag-top-right">NOVAL <span>·</span> WEB DEVELOPER</div>
+
+        <img
+          class="portrait"
+          src="assetporto/noval-cutout.webp"
+          alt="Noval Joeliawan"
+          width="913"
+          height="950"
+        />
+
+        <div class="tag tag-school">SMK KRIAN 1 SIDOARJO</div>
+
+        <div class="status" aria-hidden="true">
+          <span id="clock">--:--</span><span class="dash">—</span
+          ><span id="counter">01/07</span>
+        </div>
+      </section>
+    </div>
+
+    <script src="home.js"></script>
+    <script src="music.js"></script>
+    <script src="bgfx.js"></script>
+  </body>
+</html>

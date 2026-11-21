@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <script>
+      /* Iris transition: tutup layar sejak render pertama agar tidak berkedip */
+      try { if (sessionStorage.getItem("p5_nav")) document.documentElement.classList.add("p5-arriving"); } catch (e) {}
+    </script>
+    <script src="router.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Projects — Noval Joeliawan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Bebas+Neue&family=Playfair+Display:wght@900&family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="music.css" />
+  </head>
+  <body class="p5-theme subpage-body">
+    <!-- Halftone Overlay -->
+    <div class="p5-halftone-bg" aria-hidden="true"></div>
+
+     </div>
+
+    <!-- Scroll Progress -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Top Action Bar: header miring + tombol kembali (active ribbon) -->
+    <header class="p5-subpage-header">
+      <div class="subpage-header-container">
+        <div class="header-left">
+          <div class="tag tag-brand">PORTFOLIO <span>//</span> NOVAL</div>
+          <a href="index.html" class="p5-back-button" title="Kembali ke Menu Utama [ESC]">
+            <span class="back-arrow" aria-hidden="true"><i></i></span>
+            <span class="back-label">BACK TO MENU</span>
+            <kbd class="esc-badge">[ESC] BACK</kbd>
+          </a>
+        </div>
+        <div class="tag tag-role">NOVAL <span>·</span> WEB DEVELOPER</div>
+      </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="subpage-content-wrap">
+      <div class="section-container">
+        <div class="section-header" data-aos="fade-right">
+          <div class="section-tag-badge">MISSION LOG #03</div>
+          <h1 class="section-title ransom-target">PROJECTS</h1>
+          <div class="section-tape">TARGET CLEARED</div>
+        </div>
+        <p class="section-subtitle" data-aos="fade">
+          Hasil eksperimen dan latihan coding yang telah diselesaikan.
+        </p>
+
+        <div id="proyek-list" class="p5-cards-grid"></div>
+
+        <div class="section-action-center" data-aos="fade-up">
+          <a href="gallery.html?tab=proyek" class="p5-btn p5-btn-large">
+            <span class="p5-btn-text">BUKA SEMUA PROYEK DI GALERI ➔</span>
+          </a>
+        </div>
+      </div>
+    </main>
+
+    <!-- Modal Image Preview -->
+    <div id="imgModal" class="p5-modal">
+      <div class="p5-modal-dialog">
+        <button class="p5-close-btn" data-close-modal="imgModal" title="Close [ESC]">
+          &times;
+        </button>
+        <div class="p5-modal-content">
+          <img id="modalImg" class="p5-modal-img" alt="Preview Proyek" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom HUD Bar (sama dengan index.html) -->
+    <div class="p5-hud-bottom-bar">
+      <div class="hints hud-controls-left">
+        <span aria-hidden="true"><kbd>↑↓</kbd> SELECT</span>
+        <span aria-hidden="true"><kbd>ENTER</kbd> CONFIRM</span>
+        <span aria-hidden="true"><kbd>ESC</kbd> BACK</span>
+        <button type="button" class="sfx-toggle" id="sfxToggle" aria-pressed="true" aria-label="Efek suara: aktif (tekan M untuk mengubah)"><kbd>M</kbd> SFX: <b class="sfx-state">ON</b></button>
+      </div>
+      <div class="status" aria-hidden="true">
+        <span id="hudTime">--:--:--</span><span class="wib">WIB</span><span class="dash">—</span
+        ><span id="hudDate">---</span>
+      </div>
+    </div>
+
+    <!-- Back to top button -->
+    <button
+      type="button"
+      class="p5-back-to-top"
+      id="backToTop"
+      aria-label="Back to top"
+    >
+      <span>▲</span>
+    </button>
+
+    <script src="script.js"></script>
+    <script src="music.js"></script>
+    <script src="bgfx.js"></script>
+  </body>
+</html>

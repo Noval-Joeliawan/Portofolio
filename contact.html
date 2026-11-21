@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <script>
+      /* Iris transition: tutup layar sejak render pertama agar tidak berkedip */
+      try { if (sessionStorage.getItem("p5_nav")) document.documentElement.classList.add("p5-arriving"); } catch (e) {}
+    </script>
+    <script src="router.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact — Noval Joeliawan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Bebas+Neue&family=Playfair+Display:wght@900&family=Space+Grotesk:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="music.css" />
+  </head>
+  <body class="p5-theme subpage-body contact-page">
+    <!-- Halftone Overlay -->
+    <div class="p5-halftone-bg" aria-hidden="true"></div>
+
+     </div>
+
+    <!-- Scroll Progress -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Top Action Bar: header miring + tombol kembali (active ribbon) -->
+    <header class="p5-subpage-header">
+      <div class="subpage-header-container">
+        <div class="header-left">
+          <div class="tag tag-brand">PORTFOLIO <span>//</span> NOVAL</div>
+          <a href="index.html" class="p5-back-button" title="Kembali ke Menu Utama [ESC]">
+            <span class="back-arrow" aria-hidden="true"><i></i></span>
+            <span class="back-label">BACK TO MENU</span>
+            <kbd class="esc-badge">[ESC] BACK</kbd>
+          </a>
+        </div>
+        <div class="tag tag-role">NOVAL <span>·</span> WEB DEVELOPER</div>
+      </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="subpage-content-wrap">
+      <div class="section-container">
+        <div class="section-header" data-aos="fade-right">
+          <div class="section-tag-badge">TRANSMISSION #06</div>
+          <h1 class="section-title ransom-target">CONTACT</h1>
+          <div class="section-tape">SEND CALLING CARD</div>
+        </div>
+
+        <div class="calling-card-box p5-box" data-aos="fade">
+          <div class="calling-card-top">
+            <span class="star-mark">★ ★ ★</span>
+            <span class="calling-card-title">OFFICIAL CALLING CARD</span>
+            <span class="star-mark">★ ★ ★</span>
+          </div>
+
+          <p class="calling-card-msg">
+            Tertarik untuk berkolaborasi, memberikan tantangan proyek, atau ingin berdiskusi seputar web development? Kirimkan pesan melalui kanal di bawah ini!
+          </p>
+
+          <div class="contact-icons-row">
+            <button
+              type="button"
+              id="openEmailModal"
+              class="p5-icon-button"
+              title="Kirim Email"
+            >
+              <img
+                src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/gmail.svg"
+                alt="Email"
+              />
+              <span class="icon-caption">EMAIL</span>
+            </button>
+
+            <a
+              href="https://www.instagram.com/novaljoeliawan_?igsh=MXJsOWF0Z3MzZGQ5Nw=="
+              target="_blank"
+              class="p5-icon-button"
+              title="Instagram"
+            >
+              <img
+                src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/instagram.svg"
+                alt="Instagram"
+              />
+              <span class="icon-caption">INSTAGRAM</span>
+            </a>
+
+            <a
+              href="https://www.tiktok.com/@joeliawan_"
+              target="_blank"
+              class="p5-icon-button"
+              title="TikTok"
+            >
+              <img
+                src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/tiktok.svg"
+                alt="TikTok"
+              />
+              <span class="icon-caption">TIKTOK</span>
+            </a>
+
+            <a
+              href="https://github.com/Noval-Joeliawan"
+              target="_blank"
+              class="p5-icon-button"
+              title="GitHub"
+            >
+              <img
+                src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/github.svg"
+                alt="GitHub"
+              />
+              <span class="icon-caption">GITHUB</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-sign">
+          <p class="footer-note">
+            // TAKE YOUR TIME • TERIMA KASIH TELAH MENGUNJUNGI PORTOFOLIO SAYA //
+          </p>
+        </div>
+      </div>
+    </main>
+
+    <!-- Modal Email -->
+    <div id="emailModal" class="p5-modal">
+      <div class="p5-modal-dialog email-dialog p5-box">
+        <button class="p5-close-btn" data-close-modal="emailModal" title="Close [ESC]">
+          &times;
+        </button>
+        <div class="p5-dialog-header">
+          <span class="p5-dialog-tag">COMMUNICATION</span>
+          <h3>HUBUNGI LEWAT EMAIL</h3>
+        </div>
+        <p>Silakan hubungi saya secara langsung melalui alamat email di bawah ini:</p>
+        <div class="email-field-box">
+          <span id="emailText">novaljoeliawan@gmail.com</span>
+          <button id="copyEmailBtn" type="button" class="p5-btn p5-btn-small">
+            <span class="p5-btn-text">SALIN</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom HUD Bar (sama dengan index.html) -->
+    <div class="p5-hud-bottom-bar">
+      <div class="hints hud-controls-left">
+        <span aria-hidden="true"><kbd>↑↓</kbd> SELECT</span>
+        <span aria-hidden="true"><kbd>ENTER</kbd> CONFIRM</span>
+        <span aria-hidden="true"><kbd>ESC</kbd> BACK</span>
+        <button type="button" class="sfx-toggle" id="sfxToggle" aria-pressed="true" aria-label="Efek suara: aktif (tekan M untuk mengubah)"><kbd>M</kbd> SFX: <b class="sfx-state">ON</b></button>
+      </div>
+      <div class="status" aria-hidden="true">
+        <span id="hudTime">--:--:--</span><span class="wib">WIB</span><span class="dash">—</span
+        ><span id="hudDate">---</span>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="music.js"></script>
+    <script src="bgfx.js"></script>
+  </body>
+</html>

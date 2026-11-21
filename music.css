@@ -1,0 +1,553 @@
+/* ==========================================================================
+   PEMUTAR MUSIK — kartu bertumpuk bergaya menu Persona (merah · hitam · putih)
+   Dipakai bersama oleh index.html dan semua sub-page.
+   ========================================================================== */
+.p5-music {
+  --pm-red: #d90429;
+  --pm-red-light: #ef233c;
+  --pm-black: #0b090a;
+  --pm-white: #ffffff;
+  --pm-yellow: #ffd000;
+  --pm-glow: #ff001e;
+  position: fixed;
+  right: 16px;
+  bottom: calc(var(--hud-h, 40px) + 16px);
+  /* di atas overlay transisi halaman (z-index 99999) agar tombol musik tidak tertutup iris */
+  z-index: 100000;
+  font-family: "Bebas Neue", "Space Grotesk", sans-serif;
+  letter-spacing: 0.08em;
+  color: var(--pm-white);
+}
+:where(.p5-music) button {
+  /* :where() -> spesifisitas 0, agar warna tiap tombol di bawah tidak tertimpa */
+  font: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+.p5-music svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.p5-music :focus-visible {
+  outline: 3px solid var(--pm-white);
+  outline-offset: 2px;
+}
+
+/* tombol "back to top" naik sedikit agar tidak menumpuk dengan pemutar */
+.p5-back-to-top {
+  bottom: calc(var(--hud-h, 40px) + 84px) !important;
+}
+
+/* ---------- launcher (panel tertutup) ---------- */
+.p5-music-launcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 18px 8px 16px;
+  background: var(--pm-black);
+  border: 2px solid var(--pm-white);
+  font-size: 18px;
+  line-height: 1;
+  transform: skewX(-12deg);
+  box-shadow: 5px 5px 0 rgba(11, 9, 10, 0.4);
+  transition: transform 0.14s ease, background 0.14s ease, color 0.14s ease, box-shadow 0.14s ease;
+}
+.p5-music-launcher > * {
+  transform: skewX(12deg);
+}
+.p5-music-launcher:hover,
+.p5-music-launcher:focus-visible {
+  background: var(--pm-white);
+  color: var(--pm-black);
+  transform: skewX(-12deg) translate(-3px, -3px);
+  box-shadow: 8px 8px 0 var(--pm-black);
+}
+.pm-launch-text {
+  padding-top: 2px;
+}
+.pm-launch-eq {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  width: 18px;
+  height: 16px;
+}
+.pm-launch-eq b {
+  flex: 1;
+  height: 30%;
+  background: var(--pm-red-light);
+}
+.p5-music-launcher:hover .pm-launch-eq b {
+  background: var(--pm-red);
+}
+.p5-music.is-playing .pm-launch-eq b {
+  animation: pm-eq 0.9s ease-in-out infinite;
+}
+.p5-music.is-playing .pm-launch-eq b:nth-child(2) { animation-delay: -0.3s; }
+.p5-music.is-playing .pm-launch-eq b:nth-child(3) { animation-delay: -0.6s; }
+.p5-music.is-playing .pm-launch-eq b:nth-child(4) { animation-delay: -0.15s; }
+@keyframes pm-eq {
+  0%, 100% { height: 25%; }
+  50% { height: 100%; }
+}
+
+/* ---------- buka / tutup ---------- */
+.p5-music-panel {
+  display: none;
+  width: min(500px, 92vw);
+}
+.p5-music[data-open="true"] .p5-music-panel {
+  display: block;
+  animation: pm-open 0.22s cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+.p5-music[data-open="true"] .p5-music-launcher {
+  display: none;
+}
+.p5-music[data-instant] .p5-music-panel {
+  animation: none !important;
+}
+/* autoplay bersuara diblokir: ajak pengunjung mengetuk untuk menyalakan suara */
+.p5-music.is-blocked .p5-music-launcher {
+  background: var(--pm-red);
+  animation: pm-pulse 1.1s ease-in-out infinite;
+}
+@keyframes pm-pulse {
+  0%, 100% { box-shadow: 5px 5px 0 rgba(11, 9, 10, 0.4); }
+  50% { box-shadow: 5px 5px 0 rgba(11, 9, 10, 0.4), 0 0 0 5px rgba(255, 255, 255, 0.55); }
+}
+@keyframes pm-open {
+  from { opacity: 0; transform: translateY(14px) skewX(-4deg); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ---------- baris atas: counter · AUDIO ON/OFF · tutup ---------- */
+.pm-top {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.pm-count {
+  margin-right: auto;
+  padding: 4px 12px 3px;
+  background: var(--pm-white);
+  color: var(--pm-black);
+  font-size: 15px;
+  line-height: 1;
+  transform: skewX(-12deg);
+  box-shadow: 3px 3px 0 var(--pm-black);
+}
+.pm-audio {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px 5px 12px;
+  background: var(--pm-black);
+  border: 2px solid var(--pm-white);
+  font-size: 16px;
+  line-height: 1;
+  transform: skewX(-12deg);
+  box-shadow: 3px 3px 0 rgba(11, 9, 10, 0.45);
+}
+.pm-audio svg {
+  width: 18px;
+  height: 18px;
+  transform: skewX(12deg);
+}
+.pm-audio span {
+  transform: skewX(12deg);
+  padding-top: 2px;
+}
+.pm-audio.is-off {
+  background: var(--pm-white);
+  color: var(--pm-black);
+}
+.pm-close {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 32px;
+  padding: 0;
+  background: var(--pm-red);
+  border: 2px solid var(--pm-white);
+  font-size: 18px;
+  line-height: 1;
+  transform: skewX(-12deg);
+  box-shadow: 3px 3px 0 var(--pm-black);
+}
+.pm-btn {
+  transition: transform 0.12s ease, background 0.12s ease, color 0.12s ease;
+}
+.pm-audio:hover,
+.pm-close:hover {
+  transform: skewX(-12deg) translate(-2px, -2px);
+}
+.pm-close:hover {
+  background: var(--pm-white);
+  color: var(--pm-black);
+}
+
+/* ==========================================================================
+   3-CARD STAGGERED SLANTED CAROUSEL
+   atas (PREV, pendek, menjorok kanan) · tengah (NOW, lebar) · bawah (NEXT)
+   ========================================================================== */
+.pm-stack {
+  --w-now: min(440px, 92vw);
+  --w-prev: min(350px, 78vw);
+  --w-next: min(340px, 76vw);
+  --ox-prev: min(55px, 7vw);
+  --ox-next: min(75px, 10vw);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 22px 0 18px;
+}
+.pm-card {
+  position: relative;
+  flex: none;
+  box-sizing: border-box;
+  background: var(--pm-black);
+  border: 2px solid var(--pm-white);
+  text-align: left;
+  transition: transform 0.18s cubic-bezier(0.2, 0.9, 0.3, 1), background 0.14s ease, box-shadow 0.14s ease;
+}
+
+/* ----- kartu atas & bawah ----- */
+.pm-prev,
+.pm-next {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 78px;
+  padding: 0 16px 0 14px;
+  box-shadow: 0 0 0 3px #a80320, 7px 7px 0 rgba(0, 0, 0, 0.7);
+}
+.pm-prev {
+  padding-bottom: 18px;
+  z-index: 1;
+  width: var(--w-prev);
+  margin-bottom: -14px;
+  transform: translateX(var(--ox-prev)) rotate(-7deg) skewX(-10deg);
+}
+.pm-next {
+  padding-top: 22px;
+  z-index: 2;
+  width: var(--w-next);
+  margin-top: -12px;
+  transform: translateX(var(--ox-next)) rotate(2deg) skewX(-10deg);
+}
+.pm-prev:hover,
+.pm-prev:focus-visible {
+  background: var(--pm-red);
+  transform: translateX(calc(var(--ox-prev) - 8px)) rotate(-7deg) skewX(-10deg);
+}
+.pm-next:hover,
+.pm-next:focus-visible {
+  background: var(--pm-red);
+  transform: translateX(calc(var(--ox-next) - 8px)) rotate(2deg) skewX(-10deg);
+}
+.pm-ico {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border: 2px solid var(--pm-white);
+  border-radius: 50%;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0;
+  color: var(--pm-white);
+  transform: skewX(10deg); /* batalkan miring kartu agar tetap bulat */
+}
+.pm-prev .pm-ico { color: var(--pm-yellow); border-color: var(--pm-yellow); }
+.pm-meta {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+  gap: 2px;
+}
+.pm-title {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-family: "Anton", "Archivo Black", sans-serif;
+  font-size: 17px;
+  letter-spacing: 0.03em;
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+.pm-artist {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  min-width: 0;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--pm-white);
+}
+.pm-artist.is-error {
+  background: var(--pm-red);
+  padding: 0 6px;
+}
+.pm-chip {
+  flex: none;
+  padding: 4px 11px 3px;
+  background: var(--pm-white);
+  color: var(--pm-black);
+  font-size: 14px;
+  line-height: 1;
+}
+
+/* ----- kartu tengah (aktif) ----- */
+.pm-now {
+  z-index: 3;
+  width: var(--w-now);
+  padding: 14px 16px 12px 16px;
+  border-color: var(--pm-white);
+  box-shadow: 0 0 0 3px var(--pm-glow), 10px 10px 0 rgba(0, 0, 0, 0.85);
+  transform: translateX(0) rotate(-3deg) skewX(-8deg);
+}
+.pm-now-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.pm-disc {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 54px;
+  height: 54px;
+  background: var(--pm-white);
+  border: 3px solid var(--pm-glow);
+  border-radius: 50%;
+  transform: skewX(8deg); /* tetap bulat */
+}
+.pm-eq {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  width: 22px;
+  height: 22px;
+}
+.pm-eq b {
+  flex: 1;
+  height: 35%;
+  background: var(--pm-black);
+}
+.p5-music.is-playing .pm-eq b {
+  animation: pm-eq 0.8s ease-in-out infinite;
+}
+.p5-music.is-playing .pm-eq b:nth-child(2) { animation-delay: -0.27s; }
+.p5-music.is-playing .pm-eq b:nth-child(3) { animation-delay: -0.53s; }
+.pm-now .pm-meta { gap: 4px; }
+.pm-titlerow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.pm-badge {
+  flex: none;
+  padding: 3px 7px 2px;
+  background: var(--pm-white);
+  color: var(--pm-black);
+  border: 2px solid var(--pm-glow);
+  font-size: 14px;
+  line-height: 1;
+}
+.pm-now .pm-title {
+  font-size: 26px;
+  line-height: 1.1;
+}
+.pm-sub {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+  font-size: 13px;
+}
+.pm-jp {
+  flex: none;
+  font-family: "Space Grotesk", "Noto Sans JP", sans-serif;
+  font-weight: 700;
+  color: var(--pm-yellow);
+}
+.pm-play {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 46px;
+  height: 42px;
+  padding: 10px;
+  background: var(--pm-white);
+  color: var(--pm-black);
+  border: 2px solid var(--pm-black);
+  box-shadow: 3px 3px 0 var(--pm-glow);
+  transition: transform 0.12s ease, background 0.12s ease, color 0.12s ease;
+}
+.pm-play:hover {
+  background: var(--pm-glow);
+  color: var(--pm-white);
+  border-color: var(--pm-white);
+  transform: translate(-2px, -2px);
+}
+
+/* seekbar */
+.pm-seek {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.35);
+}
+.pm-bar {
+  position: relative;
+  height: 6px;
+  margin: 8px 8px 12px 6px;
+  background: #3a3537;
+  cursor: pointer;
+  touch-action: none;
+}
+.pm-bar::before {
+  /* area klik/geser lebih besar daripada garisnya */
+  content: "";
+  position: absolute;
+  inset: -12px -6px;
+}
+.pm-bar-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  background: var(--pm-glow);
+}
+.pm-bar-thumb {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  background: var(--pm-glow);
+  border: 2px solid var(--pm-white);
+  border-radius: 50%;
+  box-shadow: 0 0 10px 2px rgba(255, 0, 30, 0.75);
+  transform: translate(-50%, -50%);
+}
+.pm-bar:focus-visible .pm-bar-thumb {
+  background: var(--pm-white);
+}
+.pm-times {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  font-size: 14px;
+  line-height: 1;
+}
+.pm-t-cur { text-align: left; }
+.pm-t-dur { text-align: right; }
+.pm-hint {
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+  color: var(--pm-yellow);
+}
+.pm-hint-touch {
+  display: none;
+}
+
+/* ----- tombol < PREV / NEXT > ----- */
+.pm-nav {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-right: 6px;
+}
+.pm-nav-btn {
+  padding: 6px 20px 5px;
+  background: var(--pm-white);
+  color: var(--pm-black);
+  border: 2px solid var(--pm-black);
+  font-size: 17px;
+  line-height: 1;
+  transform: skewX(-12deg);
+  box-shadow: 3px 3px 0 var(--pm-black);
+}
+.pm-nav-btn:hover {
+  background: var(--pm-red);
+  color: var(--pm-white);
+  border-color: var(--pm-white);
+  transform: skewX(-12deg) translate(-2px, -2px);
+}
+
+@keyframes pm-eq {
+  0%, 100% { height: 25%; }
+  50% { height: 100%; }
+}
+
+/* ----- animasi ganti lagu: kartu bergeser naik / turun ----- */
+.p5-music[data-slide="next"] .pm-now,
+.p5-music[data-slide="next"] .pm-next { animation: pm-slide-up 0.28s cubic-bezier(0.2, 0.9, 0.3, 1); }
+.p5-music[data-slide="next"] .pm-prev { animation: pm-slide-up-sm 0.28s cubic-bezier(0.2, 0.9, 0.3, 1); }
+.p5-music[data-slide="prev"] .pm-now,
+.p5-music[data-slide="prev"] .pm-prev { animation: pm-slide-down 0.28s cubic-bezier(0.2, 0.9, 0.3, 1); }
+.p5-music[data-slide="prev"] .pm-next { animation: pm-slide-down-sm 0.28s cubic-bezier(0.2, 0.9, 0.3, 1); }
+@keyframes pm-slide-up { from { translate: 0 34px; opacity: 0.3; } to { translate: 0 0; opacity: 1; } }
+@keyframes pm-slide-down { from { translate: 0 -34px; opacity: 0.3; } to { translate: 0 0; opacity: 1; } }
+@keyframes pm-slide-up-sm { from { translate: 0 18px; opacity: 0.5; } to { translate: 0 0; opacity: 1; } }
+@keyframes pm-slide-down-sm { from { translate: 0 -18px; opacity: 0.5; } to { translate: 0 0; opacity: 1; } }
+
+/* satu lagu saja: kartu prev/next disembunyikan */
+.p5-music.is-single .pm-prev,
+.p5-music.is-single .pm-next,
+.p5-music.is-single .pm-nav {
+  display: none;
+}
+
+/* perangkat sentuh: tidak ada scroll mouse */
+@media (hover: none) {
+  .pm-hint-mouse { display: none; }
+  .pm-hint-touch { display: inline; }
+}
+
+@media (max-width: 768px) {
+  .p5-music {
+    right: 12px;
+    bottom: calc(var(--hud-h, 40px) + 12px);
+    max-width: 92vw;
+  }
+  .p5-back-to-top {
+    bottom: calc(var(--hud-h, 40px) + 78px) !important;
+  }
+  .pm-stack { --w-now: 92vw; --w-prev: 76vw; --w-next: 74vw; --ox-prev: 8vw; --ox-next: 12vw; padding: 16px 0 14px; }
+  .pm-now { padding: 12px 12px 10px; }
+  .pm-disc { width: 44px; height: 44px; }
+  .pm-eq { width: 18px; height: 18px; }
+  .pm-now .pm-title { font-size: 21px; }
+  .pm-now-row { gap: 10px; }
+  .pm-play { width: 40px; height: 38px; }
+  .pm-prev, .pm-next { height: 68px; gap: 9px; padding: 0 12px 0 10px; }
+  .pm-ico { width: 30px; height: 30px; font-size: 14px; }
+  .pm-title { font-size: 15px; }
+  .pm-hint { font-size: 11px; letter-spacing: 0.06em; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .p5-music[data-open="true"] .p5-music-panel,
+  .p5-music[data-slide] .pm-now,
+  .p5-music[data-slide] .pm-prev,
+  .p5-music[data-slide] .pm-next,
+  .p5-music.is-playing .pm-launch-eq b,
+  .p5-music.is-playing .pm-eq b {
+    animation: none;
+  }
+}
